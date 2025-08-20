@@ -6,7 +6,8 @@
   <title>AR</title>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 <body>
   <a-scene
@@ -33,7 +34,7 @@
          //ARG Esfera
         let modelAR = document.createElement("a-gltf-model");
         modelAR.setAttribute("src", "modelos/Argentina/empanada.glb");
-        modelAR.setAttribute("position", "0 0.7 0");
+        modelAR.setAttribute("position", "0 0.2 0");
         modelAR.setAttribute("scale", "0.01 0.01 0.01");
         modelAR.setAttribute("rotation", "0 0 0");
         modelAR.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
@@ -53,7 +54,7 @@
         //AUS Cubo
         let modelAUS = document.createElement("a-gltf-model");
         modelAUS.setAttribute("src", "modelos/Australia/lamington.glb");
-        modelAUS.setAttribute("position", "0 0.7 0");
+        modelAUS.setAttribute("position", "0 0.3 0");
         modelAUS.setAttribute("scale", "1 1 1");
         modelAUS.setAttribute("rotation", "0 0 0");
         modelAUS.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
@@ -73,7 +74,7 @@
         //BRA Cilindro
        let modelBRA = document.createElement("a-gltf-model");
         modelBRA.setAttribute("src", "modelos/Brasil/world_cup_trophy.glb");
-        modelBRA.setAttribute("position", "0 0.7 0");
+        modelBRA.setAttribute("position", "0 0.4 0");
         modelBRA.setAttribute("scale", ".001 .001 .001");
         modelBRA.setAttribute("rotation", "0 0 0");
         modelBRA.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
@@ -136,6 +137,7 @@
         modelECU.setAttribute("position", "0 0.7 0");
         modelECU.setAttribute("scale", ".5 .5 .5");
         modelECU.setAttribute("rotation", "0 0 0");
+        modelECU.setAttribute("animation-mixer", "clip: *; loop: repeat");
         modelECU.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
 
         let textECU = document.createElement("a-text");
@@ -178,7 +180,7 @@
         modelJPN.setAttribute("position", "0 0.9 0");
         modelJPN.setAttribute("scale", "0.1 0.1 0.1");
         modelJPN.setAttribute("rotation", "0 0 0");
-  
+        modelJPN.setAttribute("animation-mixer", "clip: *; loop: repeat");
         modelJPN.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
 
         let textJPN = document.createElement("a-text");
@@ -196,7 +198,7 @@
         //JRD Cilindro
         let modelJRD = document.createElement("a-gltf-model");
         modelJRD.setAttribute("src", "modelos/Jordania/falafel.glb");
-        modelJRD.setAttribute("position", "0 1 0");
+        modelJRD.setAttribute("position", "0 0.3 0");
         modelJRD.setAttribute("scale", "0.1 0.1 0.1");
         modelJRD.setAttribute("rotation", "0 0 0");
         modelJRD.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
@@ -216,7 +218,7 @@
          //MX Esfera
         let modelMX = document.createElement("a-gltf-model");
         modelMX.setAttribute("src", "modelos/Mexico/taco.glb");
-        modelMX.setAttribute("position", "0 0.9 0");
+        modelMX.setAttribute("position", "0 0.5 0");
         modelMX.setAttribute("scale", "0.05 0.05 0.05");
         modelMX.setAttribute("rotation", "0 0 0");
         modelMX.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
@@ -279,6 +281,7 @@
         modelUZB.setAttribute("position", "0 0.5 0");
         modelUZB.setAttribute("scale", ".1 .1 .1");
         modelUZB.setAttribute("rotation", "0 0 0");
+        modelUZB.setAttribute("animation-mixer", "clip: *; loop: repeat");
         modelUZB.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
 
         let textUZB = document.createElement("a-text");
