@@ -148,7 +148,7 @@
   #video-container {
     width: 98vw;
     left: 1vw;
-    top: 80px; /* <-- Mueve el video más abajo en móvil */
+    top: 150px; /* <-- Mueve el video más abajo en móvil */
     max-width: 100vw;
     min-width: 0;
     padding-bottom: 12px;
