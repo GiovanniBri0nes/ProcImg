@@ -1,13 +1,7 @@
-// número de imágenes en targets.mind
+ // número de imágenes en targets.mind
     const totalTargets = 78; 
     const container = document.getElementById("targets-container");
-    const arUI = document.getElementById("ar-ui");
-    let currentEntity = null;
-    let currentTargetIndex = null;
-    const videoMap = [
-      { range: [0, 5], src: "videos/Argentina.mp4" }
-    ];
-    const entities = [];
+    
 
     for (let i = 0; i < totalTargets; i++) {
       const entity = document.createElement("a-entity");
@@ -28,12 +22,51 @@
         textAR.setAttribute("align", "center");
         textAR.setAttribute("scale", "0.2 0.2 0.2");
         textAR.setAttribute("position", "0 -0.4 0");
-        textAR.setAttribute("visible", "false");
 
        entity.appendChild(modelAR);
        entity.appendChild(textAR);
-       entity.modelAR = modelAR;
-       entity.textAR = textAR;
+       container.appendChild(entity);
+      
+       const btnDetener = document.getElementById("btn-detener");
+  const btnReanudar = document.getElementById("btn-reanudar");
+
+  // Variables para saber si el modelo está visible
+  let modeloVisible = false;
+
+  entity.addEventListener("targetFound", () => {
+    btnDetener.style.display = "block";
+    btnReanudar.style.display = "block";
+    modeloVisible = true;
+  });
+
+  entity.addEventListener("targetLost", () => {
+    btnDetener.style.display = "none";
+    btnReanudar.style.display = "none";
+    modeloVisible = false;
+  });
+
+  // Solo agrega los listeners una vez
+  if (!btnDetener.hasListener) {
+    btnDetener.addEventListener("click", () => {
+      if (modeloVisible) {
+        modelAR.removeAttribute("animation");
+      }
+    });
+    btnDetener.hasListener = true;
+  }
+
+  if (!btnReanudar.hasListener) {
+    btnReanudar.addEventListener("click", () => {
+      if (modeloVisible) {
+        modelAR.removeAttribute("animation");
+        setTimeout(() => {
+          modelAR.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
+        }, 300);
+      }
+    });
+    btnReanudar.hasListener = true;
+  }
+ 
 
       } 
       else if (i >= 6 && i <= 11) {
@@ -55,6 +88,7 @@
        entity.appendChild(modelAUS);
        entity.appendChild(textAUS);
        container.appendChild(entity);
+
       }
       else if (i >= 12 && i <= 17) {
         //BRA Cilindro
@@ -282,134 +316,8 @@
        entity.appendChild(textUZB);
        container.appendChild(entity);
       } 
-      container.appendChild(entity);
-      entities.push(entity);
 
-      // Eventos para mostrar/ocultar UI global y guardar el target actual
-      entity.addEventListener("targetFound", () => {
-        arUI.style.display = "block";
-        currentEntity = entity;
-        currentTargetIndex = i;
-        hideModel();
-        closeVideo();
-      });
-      entity.addEventListener("targetLost", () => {
-        arUI.style.display = "none";
-        hideModel();
-        closeVideo();
-        hideText();
-        hideQuestion();
-        currentEntity = null;
-        currentTargetIndex = null;
-      });
-    }
-
-    //Funciones para mostrar y ocultar modelo
-    function showModel() {
-      if (currentEntity && currentEntity.modelAR) {
-        currentEntity.modelAR.setAttribute("visible", "true");
-      }
-      hideText();
-      closeVideo();
-      hideQuestion();
-    }
-
-    function hideModel() {
-      if (currentEntity && currentEntity.modelAR) {
-        currentEntity.modelAR.setAttribute("visible", "false");
-      }
-    }
-
-    //Funciones para mostrar y ocultar video
-    function showVideo() {
-      hideModel();
-      // Busca el video correspondiente al target actual
-      let videoSrc = "";
-      for (const entry of videoMap) {
-        if (currentTargetIndex !== null && currentTargetIndex >= entry.range[0] && currentTargetIndex <= entry.range[1]) {
-          videoSrc = entry.src;
-          break;
-        }
-      }
-      if (videoSrc) {
-        document.getElementById("video-source").src = videoSrc;
-        document.getElementById("ar-video").load();
-        document.getElementById("video-container").style.display = "block";
-        document.getElementById("ar-video").play();
-      }
-      hideText();
-      hideModel();
-      hideQuestion();
-    }
-
-    function closeVideo() {
-      document.getElementById("video-container").style.display = "none";
-      document.getElementById("ar-video").pause();
-      document.getElementById("ar-video").currentTime = 0;
-    }
-
-  //Funciones para mostrar y ocultar texto
-    function showText() {
-    if (currentEntity && currentEntity.textAR) {
-    currentEntity.textAR.setAttribute("visible", "true");
-    }
-    if (currentEntity && currentEntity.modelAR) {
-    currentEntity.modelAR.setAttribute("visible", "false");
-    }
-    closeVideo();
-    hideModel();
-    hideQuestion();
-
+    
   }
 
-  function hideText() {
-    if (currentEntity && currentEntity.textAR) {
-    currentEntity.textAR.setAttribute("visible", "false");
-    }
-  }
-
-  //Funciones para mostrar y ocultar preguntas
-  function showQuestion(){
-    hideModel();
-    closeVideo();
-    hideText();
-
-    let question = "";
-    let options= [];
-    let correctOption = "";
-
-    if(currentTargetIndex >=0 && currentTargetIndex <=5){
-      question = "How many World Cups has Argentina won?";
-      options = ["2", "3", "4", "5"];
-      correctOption = "3";
-    }
-
-    document.getElementById("question-text").innerText = question;
-    document.getElementById("question-feedback").innerText = "";
-
-    // Genera los botones de opción
-    let html = "";
-    options.forEach(opt => {
-      html += `<button onclick="submitOption('${opt}', '${correctOption}')">${opt}</button> `;
-      });
-    document.getElementById("question-options").innerHTML = html;
-
-    document.getElementById("question-container").style.display = "block";
-
-  }
-
-  function submitOption(selected, correct) {
-    if (selected === correct) {
-     document.getElementById("question-feedback").innerText = "¡Perfect!";
-    } else {
-     document.getElementById("question-feedback").innerText = "Wrong";
-    }
-  }
-
- function hideQuestion() {
-  document.getElementById("question-container").style.display = "none";
-  }
-  // Función para aplicar filtros al video
-  function setVideoFilter(filter) {
-  document.getElementById("ar-video").style.filter = filter;
-  }
+ 

@@ -7,10 +7,26 @@
    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <nav class="main-menu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#ar">AR Experience</a></li>
+            <li><a href="#video">Video</a></li>
+            <li><a href="#statistics">Statistics</a></li>
+            <li><a href="#trivia">Trivia</a></li>
+            </ul>
+    </nav>
+
+<section id="home">
     <div class="header">
         <div class="logo">FIFA WORLD CUP</div>
+    </div>
+</section>
         <div class="year">2026</div>
         <div class="subtitle">The Biggest Tournament in Football History</div>
+    
+
         
         <div class="host-countries">
             <div class="country">
@@ -33,6 +49,7 @@
             Experience the FIFA World Cup 2026 like never before! The first World Cup hosted by three nations will feature 48 teams competing across 16 cities.
         </div>
 
+    <section id="ar">
         <div class="ar-section">
             <div class="ar-title">🏆 Augmented Reality Experience</div>
             <p>Discover the typical dishes of some countries, as well as their participation in previous World Cups!</p>
@@ -44,6 +61,7 @@
                 </div>
             </div>
         </div>
+    </section>
 
         <div class="features">
             <div class="feature">
@@ -68,5 +86,106 @@
             </div>
         </div>
     </div>
+
+    <br>
+    <br>
+
+    <section id="video">
+        <div class="video-section">
+            <div class="video-title">🎥 Best goals of each World Cup</div>
+            <p>Watch the best moments from the tournament!</p>
+            <video id="main-video" width="20%" controls>
+                <source src="videos/world_cup.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-filters">
+                <button onclick="setVideoFilter('grayscale(100%)')">Black & White</button>
+                <button onclick="setVideoFilter('sepia(100%)')">Sepia</button>
+                <button onclick="setVideoFilter('none')">Remove Filter</button>
+            </div>
+        </div>
+    </section>
+
+    <br>
+    <br>
+    
+    <section id="statistics">
+        <div class="statistics-section">
+            <div class="statistics-title">📊 World Cup Statistics</div>
+            <div class="statistics-images">
+                <img src="statistics.png" alt="Statistics 1" class="statistics-image">
+            </div>
+        </div>
+    </section>
+
+    <br>
+    <br>
+
+    <section id="trivia">
+        <div class="trivia-section">
+            <div class="trivia-title">❓ World Cup Trivia</div>
+            <p>Test your knowledge with our fun trivia questions!</p>
+
+             <div class="trivia-question">
+                 <div class="question-text">1. How many World Cups has Brazil won?</div>
+                  <div class="question-options">
+                     <button onclick="checkAnswer(this, true)">5</button>
+                     <button onclick="checkAnswer(this, false)">3</button>
+                     <button onclick="checkAnswer(this, false)">4</button>
+                     <button onclick="checkAnswer(this, false)">6</button>
+                 </div>
+             </div>
+
+            <div class="trivia-question">
+                <div class="question-text">2. Who won the FIFA World Cup in 2018?</div>
+                  <div class="question-options">
+                    <button onclick="checkAnswer(this, false)">Germany</button>
+                    <button onclick="checkAnswer(this, true)">France</button>
+                    <button onclick="checkAnswer(this, false)">Argentina</button>
+                    <button onclick="checkAnswer(this, false)">Spain</button>
+                  </div>
+            </div>
+
+            <div class="trivia-question">
+                <div class="question-text">3. Which country hosted the first FIFA World Cup?</div>
+                 <div class="question-options">
+                    <button onclick="checkAnswer(this, true)">Uruguay</button>
+                    <button onclick="checkAnswer(this, false)">Italy</button>
+                    <button onclick="checkAnswer(this, false)">Brazil</button>
+                    <button onclick="checkAnswer(this, false)">England</button>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+
+<script>
+      function setVideoFilter(filter) {
+      document.getElementById("main-video").style.filter = filter;
+      }
+
+
+      function checkAnswer(btn, correct) {
+    // Desactivar todos los botones de la misma pregunta
+    const options = btn.parentElement.querySelectorAll('button');
+    options.forEach(b => {
+        b.disabled = true;
+        b.style.background = "#fff";
+        b.style.color = "#1e3c72";
+        b.style.border = "1px solid #1e3c72";
+    });
+    // Marcar el botón seleccionado
+    if (correct) {
+        btn.style.background = "#4CAF50";
+        btn.style.color = "#fff";
+        btn.style.border = "1px solid #4CAF50";
+    } else {
+        btn.style.background = "#FF5252";
+        btn.style.color = "#fff";
+        btn.style.border = "1px solid #FF5252";
+    }
+  }
+</script>
+
 </body>
 </html>

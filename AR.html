@@ -4,41 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AR</title>
-  <link rel="stylesheet" href="stylesar.css">
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <style>
+    #btn-detener, #btn-reanudar {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      background: #1e3c72;
+      color: #fff;
+      border: none;
+      z-index: 9999;
+      box-shadow: 0 2px 8px rgba(30,60,114,0.12);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #btn-detener { left: 40%; }
+    #btn-reanudar { left: 55%; background: #2a5298; }
+    #btn-detener:hover, #btn-reanudar:hover {
+      background: #16335c;
+    }
+  </style>
 </head>
 <body>
-  
-  <!--Botones-->
-
-  <div id="ar-ui" style="display: none; position: fixed; top:10px; left:50%; transform:translateX(-50%); z-index:10; ">
-    <button onclick="showVideo()">Video</button>
-    <button onclick="showModel()">Model</button>
-    <button onclick="showText()">Information</button>
-    <button onclick="showQuestion()">Question</button>
-  </div>
-
-<div id="video-container" style="display:none; position:fixed; top:80px; left:50%; transform:translateX(-50%); z-index:20;">
-    <video id="ar-video" width="320" controls>
-      <source id="video-source" src="" type="video/mp4">
-      Tu navegador no soporta video.
-    </video>
-     <div style="margin-top:10px;">
-    <button onclick="setVideoFilter('grayscale(100%)')">Black & White</button>
-    <button onclick="setVideoFilter('sepia(100%)')">Sepia</button>
-    <button onclick="setVideoFilter('none')">Remove Filter</button>
-  </div>
-  </div>
-
-  <div id="question-container" style="display:none; position:fixed; top:150px; left:50%; transform:translateX(-50%); z-index:30; background:white; color:black; padding:20px; border-radius:15px;">
-    <div id="question-text"></div>
-    <div id="question-options"></div>
-    <div id="question-feedback"></div>
-  </div>
-
   <a-scene
     mindar-image="imageTargetSrc: targets.mind"
     vr-mode-ui="enabled: false"
@@ -47,10 +40,13 @@
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <!-- contenedor donde se inserta dinamicamente -->
-    <a-entity id="targets-container">
-    </a-entity>
+    <a-entity id="targets-container"></a-entity>
   </a-scene>
 
-  <script src="script.js"></script>
+   <!-- Botón para animación, oculto por defecto -->
+  <button id="btn-detener" style="display:none;position:fixed;bottom:30px;left:40%;z-index:9999;">Detener animación</button>
+<button id="btn-reanudar" style="display:none;position:fixed;bottom:30px;left:55%;z-index:9999;">Reanudar animación</button>
+<script src="script.js"></script>
+
 </body>
 </html>
