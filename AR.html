@@ -9,26 +9,45 @@
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
+   #btn-detener, #btn-reanudar {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    background: #1e3c72;
+    color: #fff;
+    border: none;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.12);
+    cursor: pointer;
+    transition: background 0.2s, left 0.2s;
+  }
+  #btn-detener { left: 40%; }
+  #btn-reanudar { left: 55%; background: #2a5298; }
+  #btn-detener:hover, #btn-reanudar:hover {
+    background: #16335c;
+  }
+
+  /* Responsivo para móviles */
+  @media (max-width: 600px) {
     #btn-detener, #btn-reanudar {
-      display: none;
-      position: fixed;
-      bottom: 30px;
-      padding: 12px 24px;
-      font-size: 1.1rem;
-      border-radius: 10px;
-      background: #1e3c72;
-      color: #fff;
-      border: none;
-      z-index: 9999;
-      box-shadow: 0 2px 8px rgba(30,60,114,0.12);
-      cursor: pointer;
-      transition: background 0.2s;
+      left: 50%;
+      width: 80vw;
+      min-width: 160px;
+      max-width: 95vw;
+      font-size: 1rem;
+      padding: 12px 0;
+      border-radius: 18px;
+      bottom: 18px;
+      transform: translateX(-50%);
     }
-    #btn-detener { left: 40%; }
-    #btn-reanudar { left: 55%; background: #2a5298; }
-    #btn-detener:hover, #btn-reanudar:hover {
-      background: #16335c;
+    #btn-reanudar {
+      margin-top: 60px;
+      background: #2a5298;
     }
+  }
   </style>
 </head>
 <body>
