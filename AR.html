@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AR</title>
   <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -10,6 +10,7 @@
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
   <style>
     .ar-btn {
       position: fixed;
@@ -17,42 +18,26 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
-      min-width: 160px;
+      min-width: 140px;
       max-width: 95vw;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       border-radius: 18px;
       box-shadow: 0 2px 8px rgba(30,60,114,0.12);
-      padding: 12px 24px;
-       display: none; 
-    }
-    #btn-detener {
-      background: #1e3c72;
-      color: #fff;
-      border: none;
-    }
-    #btn-reanudar {
+      padding: 10px 18px;
+      display: none; /* mostrado por JS cuando hay marcador visible */
       background: #2a5298;
       color: #fff;
       border: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      outline: none;
     }
-    #btn-detener:hover, #btn-reanudar:hover {
-      background: #16335c;
-      color: #fff;
+    .ar-btn:active { transform: translateX(-50%); opacity: 0.95; }
+    @media (max-width:600px) {
+      .ar-btn { width: 80vw; padding: 12px 0; bottom: 18px; font-size: 1rem; }
     }
-    @media (max-width: 600px) {
-      .ar-btn {
-        width: 80vw;
-        font-size: 1rem;
-        padding: 12px 0;
-        bottom: 18px;
-      }
-      #btn-reanudar {
-        margin-top: 60px;
-      }
-      #btn-detener {
-        margin-top: 12px;
-      }
-    }
+    a-scene { width:100vw; height:100vh; }
   </style>
 </head>
 <body>
@@ -60,14 +45,14 @@
     mindar-image="imageTargetSrc: targets.mind"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
-
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <!-- contenedor donde script.js añade los anchors (targets) -->
     <a-entity id="targets-container"></a-entity>
   </a-scene>
 
-  <!-- Botones Bootstrap responsivos y personalizados -->
-  <button id="btn-detener" class="btn ar-btn" style="bottom: 90px;">Stop Animation</button>
-  <button id="btn-reanudar" class="btn ar-btn" style="bottom: 30px;">Start Animation</button>
+  <!-- único botón -->
+  <button id="btn-reanudar" class="btn ar-btn">Iniciar animación</button>
 
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

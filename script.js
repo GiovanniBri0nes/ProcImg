@@ -1,323 +1,415 @@
- // número de imágenes en targets.mind
-    const totalTargets = 78; 
-    const container = document.getElementById("targets-container");
-    
+const totalTargets = 108;
+const container = document.getElementById("targets-container");
+const btnReanudar = document.getElementById("btn-reanudar");
+let currentAnchor = null;
 
-    for (let i = 0; i < totalTargets; i++) {
-      const entity = document.createElement("a-entity");
-      entity.setAttribute("mindar-image-target", `targetIndex: ${i}`);
-  
-      if (i >= 0 && i <= 5) {
-         //ARG Esfera
-        let modelAR = document.createElement("a-gltf-model");
-        modelAR.setAttribute("src", "modelos/Argentina/empanada.glb");
-        modelAR.setAttribute("position", "0 0.2 0");
-        modelAR.setAttribute("scale", "0.01 0.01 0.01");
-        modelAR.setAttribute("rotation", "0 0 0");
-        modelAR.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
+if (!container) {
+  console.warn("targets-container no encontrado. Asegúrate que AR.html contiene <a-entity id=\"targets-container\">.");
+}
 
-        let textAR = document.createElement("a-text");
-        textAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textAR.setAttribute("value", "Argentina has appeared in the World Cup 18 times and won three titles (1978, 1986, 2022). Famous for legends like Diego Maradona and Lionel Messi, the team is known for flair, technical skill, and attacking football. Argentina consistently reaches advanced stages, including semifinals and finals. Its national team, “La Albiceleste,” is a source of national pride and global recognition.");
-        textAR.setAttribute("align", "center");
-        textAR.setAttribute("scale", "0.2 0.2 0.2");
-        textAR.setAttribute("position", "0 -0.4 0");
+// helper para parsear rotation "x y z" o objeto
+function parseRotation(rot) {
+  if (!rot) return { x: 0, y: 0, z: 0 };
+  if (typeof rot === "string") {
+    const parts = rot.trim().split(/\s+/).map(n => parseFloat(n) || 0);
+    return { x: parts[0] || 0, y: parts[1] || 0, z: parts[2] || 0 };
+  }
+  return { x: rot.x || 0, y: rot.y || 0, z: rot.z || 0 };
+}
 
-       entity.appendChild(modelAR);
-       entity.appendChild(textAR);
-       container.appendChild(entity);
-      
-       const btnDetener = document.getElementById("btn-detener");
-  const btnReanudar = document.getElementById("btn-reanudar");
+// crea anchors y añade contenido (ejemplo Argentina). Mantén tus bloques existentes aquí.
+for (let i = 0; i < totalTargets; i++) {
+  const entity = document.createElement("a-entity");
+  entity.setAttribute("mindar-image-target", `targetIndex: ${i}`);
 
-  // Variables para saber si el modelo está visible
-  let modeloVisible = false;
+   //ARG
+  if (i >= 0 && i <= 5) {
+    const modelAR = document.createElement("a-gltf-model");
+    modelAR.setAttribute("src", "modelos/Argentina/argentina.glb");
+    modelAR.setAttribute("position", "0 0.2 0");
+    modelAR.setAttribute("scale", ".3 .3 .3");
+    modelAR.setAttribute("rotation", "0 0 0");
 
+    const textAR = document.createElement("a-text");
+    textAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textAR.setAttribute("value", "Argentina ha sido campeón 3 veces de la Copa del Mundo (1978, 1986, 2022).");
+    textAR.setAttribute("align", "center");
+    textAR.setAttribute("scale", "0.2 0.2 0.2");
+    textAR.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelAR);
+    entity.appendChild(textAR);
+    if (container) container.appendChild(entity);
+  }
+  //AUS
+  else if (i>=6 && i<=11) {
+    const modelAUS = document.createElement("a-gltf-model");
+    modelAUS.setAttribute("src", "modelos/Australia/australia.glb");
+    modelAUS.setAttribute("position", "0 0.2 0");
+    modelAUS.setAttribute("scale", ".3 .3 .3");
+    modelAUS.setAttribute("rotation", "0 0 0");
+
+    const textAUS = document.createElement("a-text");
+    textAUS.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textAUS.setAttribute("value", "En 2006 Australia consiguió su primera victoria en un mundial contra Japón.");
+    textAUS.setAttribute("align", "center");
+    textAUS.setAttribute("scale", "0.2 0.2 0.2");
+    textAUS.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelAUS);
+    entity.appendChild(textAUS);
+    if (container) container.appendChild(entity);
+  }
+  //BRA
+  else if (i>=12 && i<=17) {
+    const modelBRA = document.createElement("a-gltf-model");
+    modelBRA.setAttribute("src", "modelos/Brasil/brasil.glb");
+    modelBRA.setAttribute("position", "0 0.2 0");
+    modelBRA.setAttribute("scale", ".3 .3 .3");
+    modelBRA.setAttribute("rotation", "0 0 0");
+
+    const textBRA = document.createElement("a-text");
+    textBRA.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textBRA.setAttribute("value", "Brasil ha ganado 5 Copas del Mundo (1958, 1962, 1970, 1994, 2002).");
+    textBRA.setAttribute("align", "center");
+    textBRA.setAttribute("scale", "0.2 0.2 0.2");
+    textBRA.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelBRA);
+    entity.appendChild(textBRA);
+    if (container) container.appendChild(entity);
+  }
+  //CAN
+  else if (i>=18 && i<=23) {
+    const modelCAN = document.createElement("a-gltf-model");
+    modelCAN.setAttribute("src", "modelos/Canada/canada.glb");
+    modelCAN.setAttribute("position", "0 0.2 0");
+    modelCAN.setAttribute("scale", ".3 .3 .3");
+    modelCAN.setAttribute("rotation", "0 0 0");
+
+    const textCAN = document.createElement("a-text");
+    textCAN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textCAN.setAttribute("value", "Tras estar 36 años con ausencia en mundiales, Canadá volvió a participar en Qatar 2022.");
+    textCAN.setAttribute("align", "center");
+    textCAN.setAttribute("scale", "0.2 0.2 0.2");
+    textCAN.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelCAN);
+    entity.appendChild(textCAN);
+    if (container) container.appendChild(entity);
+  }
+  //COL
+  else if (i>=24 && i<=29) {
+    const modelCOL = document.createElement("a-gltf-model");
+    modelCOL.setAttribute("src", "modelos/Colombia/colombia.glb");
+    modelCOL.setAttribute("position", "0 0.2 0");
+    modelCOL.setAttribute("scale", ".3 .3 .3");
+    modelCOL.setAttribute("rotation", "0 0 0");
+
+    const textCOL = document.createElement("a-text");
+    textCOL.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textCOL.setAttribute("value", "James Rodríguez fue el máximo goleador de Colombia en 2014.");
+    textCOL.setAttribute("align", "center");
+    textCOL.setAttribute("scale", "0.2 0.2 0.2");
+    textCOL.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelCOL);
+    entity.appendChild(textCOL);
+    if (container) container.appendChild(entity);
+  }
+  //COR
+  else if (i>=30 && i<=35) {
+    const modelCOR = document.createElement("a-gltf-model");
+    modelCOR.setAttribute("src", "modelos/Corea del sur/coreadelsur.glb");
+    modelCOR.setAttribute("position", "0 0.2 0");
+    modelCOR.setAttribute("scale", ".3 .3 .3");
+    modelCOR.setAttribute("rotation", "0 0 0"); 
+
+    const textCOR = document.createElement("a-text");
+    textCOR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textCOR.setAttribute("value", "Corea del Sur alcanzó las semifinales en el Mundial de 2002.");
+    textCOR.setAttribute("align", "center");
+    textCOR.setAttribute("scale", "0.2 0.2 0.2");
+    textCOR.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelCOR);
+    entity.appendChild(textCOR);
+    if (container) container.appendChild(entity);
+  }
+  //ECU
+  else if (i>=36 && i<=41) {
+    const modelECU = document.createElement("a-gltf-model");
+    modelECU.setAttribute("src", "modelos/Ecuador/ecuador_anim.glb");
+    modelECU.setAttribute("position", "0 0.2 0");
+    modelECU.setAttribute("scale", ".3 .3 .3");
+    modelECU.setAttribute("rotation", "0 0 0");
+
+    const textECU = document.createElement("a-text");
+    textECU.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textECU.setAttribute("value", "La primera vez que Ecuador clasificó a un Mundial fue en Francia 1998.");
+    textECU.setAttribute("align", "center");
+    textECU.setAttribute("scale", "0.2 0.2 0.2");
+    textECU.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelECU);
+    entity.appendChild(textECU);
+    if (container) container.appendChild(entity);
+  }
+  //USA
+  else if (i>=42 && i<=47) {
+    const modelUSA = document.createElement("a-gltf-model");
+    modelUSA.setAttribute("src", "modelos/Estados unidos/eu.glb");
+    modelUSA.setAttribute("position", "0 0.2 0");
+    modelUSA.setAttribute("scale", ".3 .3 .3");
+    modelUSA.setAttribute("rotation", "0 0 0");
+
+    const textUSA = document.createElement("a-text");
+    textUSA.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textUSA.setAttribute("value", "Estados Unidos fue sede del Mundial en 1994.");
+    textUSA.setAttribute("align", "center");
+    textUSA.setAttribute("scale", "0.2 0.2 0.2");
+    textUSA.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelUSA);
+    entity.appendChild(textUSA);
+    if (container) container.appendChild(entity);
+  }
+  //JPN
+  else if (i>=48 && i<=53) {
+    const modelJPN = document.createElement("a-gltf-model");  
+    modelJPN.setAttribute("src", "modelos/Japon/japon.glb");
+    modelJPN.setAttribute("position", "0 0.2 0");
+    modelJPN.setAttribute("scale", ".3 .3 .3");
+    modelJPN.setAttribute("rotation", "0 0 0");
+
+    const textJPN = document.createElement("a-text");
+    textJPN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textJPN.setAttribute("value", "Japón coorganizó el Mundial de 2002 junto a Corea del Sur.");
+    textJPN.setAttribute("align", "center");
+    textJPN.setAttribute("scale", "0.2 0.2 0.2");
+    textJPN.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelJPN);
+    entity.appendChild(textJPN);
+    if (container) container.appendChild(entity);
+  }
+  //JRD
+  else if (i>=54 && i<=59) {
+    const modelJRD = document.createElement("a-gltf-model");
+    modelJRD.setAttribute("src", "modelos/Jordania/jrd.glb");
+    modelJRD.setAttribute("position", "0 0.2 0");
+    modelJRD.setAttribute("scale", ".3 .3 .3");
+    modelJRD.setAttribute("rotation", "0 0 0");
+
+    const textJRD = document.createElement("a-text");
+    textJRD.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textJRD.setAttribute("value", "Jordania nunca ha clasificado a una Copa del Mundo.");
+    textJRD.setAttribute("align", "center");
+    textJRD.setAttribute("scale", "0.2 0.2 0.2");
+    textJRD.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelJRD);
+    entity.appendChild(textJRD);
+    if (container) container.appendChild(entity);
+  }
+  //MAR
+  else if (i>=60 && i<=65) {
+    const modelMAR = document.createElement("a-gltf-model");
+    modelMAR.setAttribute("src", "modelos/Marruecos/marr.glb");
+    modelMAR.setAttribute("position", "0 0.2 0");
+    modelMAR.setAttribute("scale", ".3 .3 .3");
+    modelMAR.setAttribute("rotation", "0 0 0");
+
+    const textMAR = document.createElement("a-text");
+    textMAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textMAR.setAttribute("value", "Marruecos fue el primer país africano en llegar a semifinales en 1998.");
+    textMAR.setAttribute("align", "center");
+    textMAR.setAttribute("scale", "0.2 0.2 0.2");
+    textMAR.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelMAR);
+    entity.appendChild(textMAR);
+    if (container) container.appendChild(entity);
+  }
+  //MEX
+  else if (i>=66 && i<=71) {
+    const modelMEX = document.createElement("a-gltf-model");
+    modelMEX.setAttribute("src", "modelos/Mexico/mex.glb");
+    modelMEX.setAttribute("position", "0 0.2 0");
+    modelMEX.setAttribute("scale", ".3 .3 .3");
+    modelMEX.setAttribute("rotation", "0 0 0");
+
+    const textMEX = document.createElement("a-text");
+    textMEX.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textMEX.setAttribute("value", "México ha sido sede de la Copa del Mundo en 1970, 1986 y 2026.");
+    textMEX.setAttribute("align", "center");
+    textMEX.setAttribute("scale", "0.2 0.2 0.2");
+    textMEX.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelMEX);
+    entity.appendChild(textMEX);
+    if (container) container.appendChild(entity);
+  }
+  //NZL
+  else if (i>=72 && i<=77) {
+    const modelNZL = document.createElement("a-gltf-model");
+    modelNZL.setAttribute("src", "modelos/Nueva zelanda/nzl.glb");
+    modelNZL.setAttribute("position", "0 0.2 0");
+    modelNZL.setAttribute("scale", ".3 .3 .3");
+    modelNZL.setAttribute("rotation", "0 0 0");
+
+    const textNZL = document.createElement("a-text");
+    textNZL.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textNZL.setAttribute("value", "En 2010 Nueva Zelanda se mantuvo invicta pero no pasó de fase de grupos.");
+    textNZL.setAttribute("align", "center");
+    textNZL.setAttribute("scale", "0.2 0.2 0.2");
+    textNZL.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelNZL);
+    entity.appendChild(textNZL);
+    if (container) container.appendChild(entity);
+  }
+  //PAR
+  else if (i>=78 && i<=83) {
+    const modelPAR = document.createElement("a-gltf-model");
+    modelPAR.setAttribute("src", "modelos/Paraguay/prgy.glb");
+    modelPAR.setAttribute("position", "0 0.2 0");
+    modelPAR.setAttribute("scale", ".3 .3 .3");
+    modelPAR.setAttribute("rotation", "0 0 0");
+
+    const textPAR = document.createElement("a-text");
+    textPAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textPAR.setAttribute("value", "En 2010 Paraguay llegó a los cuartos de final por primera vez.");
+    textPAR.setAttribute("align", "center");
+    textPAR.setAttribute("scale", "0.2 0.2 0.2");
+    textPAR.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelPAR);
+    entity.appendChild(textPAR);
+    if (container) container.appendChild(entity);
+  }
+  //RII
+  else if (i>=84 && i<=89) {
+    const modelRII = document.createElement("a-gltf-model");
+    modelRII.setAttribute("src", "modelos/RII/rii.glb");
+    modelRII.setAttribute("position", "0 0.2 0");
+    modelRII.setAttribute("scale", ".3 .3 .3");
+    modelRII.setAttribute("rotation", "0 0 0");
+
+    const textRII = document.createElement("a-text");
+    textRII.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textRII.setAttribute("value", "Irán ha participado 7 veces en Copas del Mundo.");
+    textRII.setAttribute("align", "center");
+    textRII.setAttribute("scale", "0.2 0.2 0.2");
+    textRII.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelRII);
+    entity.appendChild(textRII);
+    if (container) container.appendChild(entity);
+  }
+  //TUN
+  else if (i>=90 && i<=95) {
+    const modelTUN = document.createElement("a-gltf-model");
+    modelTUN.setAttribute("src", "modelos/Túnez/tun.glb");
+    modelTUN.setAttribute("position", "0 0.2 0");
+    modelTUN.setAttribute("scale", ".3 .3 .3");
+    modelTUN.setAttribute("rotation", "0 0 0");
+
+    const textTUN = document.createElement("a-text");
+    textTUN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textTUN.setAttribute("value", "Túnez fue la primera selección africana en ganar un partido en un Mundial (1978).");
+    textTUN.setAttribute("align", "center");
+    textTUN.setAttribute("scale", "0.2 0.2 0.2");
+    textTUN.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelTUN);
+    entity.appendChild(textTUN);
+    if (container) container.appendChild(entity);
+  }
+  //URU
+  else if (i>=96 && i<=101) {
+    const modelURU = document.createElement("a-gltf-model");
+    modelURU.setAttribute("src", "modelos/Uruguay/uru.glb");
+    modelURU.setAttribute("position", "0 0.2 0");
+    modelURU.setAttribute("scale", ".3 .3 .3");
+    modelURU.setAttribute("rotation", "0 0 0");
+
+    const textURU = document.createElement("a-text");
+    textURU.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textURU.setAttribute("value", "Uruguay ganó la primera Copa del Mundo en 1930.");
+    textURU.setAttribute("align", "center");
+    textURU.setAttribute("scale", "0.2 0.2 0.2");
+    textURU.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelURU);
+    entity.appendChild(textURU);
+    if (container) container.appendChild(entity);
+  }
+  //UZB
+  else if (i>=102 && i<=107) {
+    const modelUZB = document.createElement("a-gltf-model");
+    modelUZB.setAttribute("src", "modelos/Uzbekistan/uzb.glb");
+    modelUZB.setAttribute("position", "0 0.2 0");
+    modelUZB.setAttribute("scale", ".3 .3 .3");
+    modelUZB.setAttribute("rotation", "0 0 0");
+
+    const textUZB = document.createElement("a-text");
+    textUZB.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textUZB.setAttribute("value", "Uzbekistán nunca ha clasificado a una Copa del Mundo.");
+    textUZB.setAttribute("align", "center");
+    textUZB.setAttribute("scale", "0.2 0.2 0.2");
+    textUZB.setAttribute("position", "0 -0.4 0");
+
+    entity.appendChild(modelUZB);
+    entity.appendChild(textUZB);
+    if (container) container.appendChild(entity);
+  }
+
+
+  // listeners para mostrar/ocultar botón y actualizar currentAnchor
   entity.addEventListener("targetFound", () => {
-    btnDetener.style.display = "block";
-    btnReanudar.style.display = "block";
-    modeloVisible = true;
+    currentAnchor = entity;
+    if (btnReanudar) btnReanudar.style.display = "block";
   });
-
   entity.addEventListener("targetLost", () => {
-    btnDetener.style.display = "none";
-    btnReanudar.style.display = "none";
-    modeloVisible = false;
+    if (currentAnchor === entity) currentAnchor = null;
+    if (btnReanudar) btnReanudar.style.display = "none";
   });
+}
 
-  // Solo agrega los listeners una vez
-  if (!btnDetener.hasListener) {
-    btnDetener.addEventListener("click", () => {
-      if (modeloVisible) {
-        modelAR.removeAttribute("animation");
-      }
+
+
+// acción del botón: rotar 360° en 5s todos los modelos dentro del anchor visible
+if (btnReanudar) {
+  btnReanudar.addEventListener("click", () => {
+    if (!currentAnchor) {
+      alert("No se detecta ningún marcador. Acerca la cámara al escudo correspondiente.");
+      return;
+    }
+
+    const models = currentAnchor.querySelectorAll("a-gltf-model, [gltf-model], .rotatable");
+    if (models.length === 0) {
+      console.log("No se encontraron modelos en el anchor visible.");
+      return;
+    }
+
+    models.forEach(m => {
+      // limpiar animaciones previas
+      m.removeAttribute("animation__spin");
+
+      const rotAttr = m.getAttribute("rotation");
+      const r = parseRotation(rotAttr);
+      const toY = r.y + 360;
+      const to = `${r.x} ${toY} ${r.z}`;
+
+      m.setAttribute("animation__spin", `property: rotation; to: ${to}; dur: 5000; easing: linear; loop: false`);
+
+      setTimeout(() => {
+        m.removeAttribute("animation__spin");
+        m.setAttribute("rotation", `${r.x} ${toY % 360} ${r.z}`);
+      }, 5050);
     });
-    btnDetener.hasListener = true;
-  }
-
-  if (!btnReanudar.hasListener) {
-    btnReanudar.addEventListener("click", () => {
-      if (modeloVisible) {
-        modelAR.removeAttribute("animation");
-        setTimeout(() => {
-          modelAR.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-        }, 300);
-      }
-    });
-    btnReanudar.hasListener = true;
-  }
- 
-
-      } 
-      else if (i >= 6 && i <= 11) {
-        //AUS Cubo
-        let modelAUS = document.createElement("a-gltf-model");
-        modelAUS.setAttribute("src", "modelos/Australia/lamington.glb");
-        modelAUS.setAttribute("position", "0 0.3 0");
-        modelAUS.setAttribute("scale", "1 1 1");
-        modelAUS.setAttribute("rotation", "0 0 0");
-        modelAUS.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textAUS = document.createElement("a-text");
-        textAUS.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textAUS.setAttribute("value", "Australia has qualified for the World Cup 6 times, debuting in 1974 and consistently appearing since 2006. Their best performance was reaching the Round of 16 in 2006. Known as the “Socceroos,” the team combines physical strength with tactical discipline. Australia has transitioned from the OFC to the AFC, increasing competition and exposure on the international stage");
-        textAUS.setAttribute("align", "center");
-        textAUS.setAttribute("scale", "0.2 0.2 0.2");
-        textAUS.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelAUS);
-       entity.appendChild(textAUS);
-       container.appendChild(entity);
-
-      }
-      else if (i >= 12 && i <= 17) {
-        //BRA Cilindro
-       let modelBRA = document.createElement("a-gltf-model");
-        modelBRA.setAttribute("src", "modelos/Brasil/world_cup_trophy.glb");
-        modelBRA.setAttribute("position", "0 0.4 0");
-        modelBRA.setAttribute("scale", ".001 .001 .001");
-        modelBRA.setAttribute("rotation", "0 0 0");
-        modelBRA.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textBRA = document.createElement("a-text");
-        textBRA.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textBRA.setAttribute("value", "Brazil is the country with the most titles in World Cup history, having won five championships (1958, 1962, 1970, 1994, and 2002). Its national team is known for its attacking style, technical skill, and legendary players like Pelé, Romário, and Ronaldo. Brazil has participated in every edition of the tournament, the only country with this distinction. The “Seleção” is a national symbol of pride and football passion throughout the country.");
-        textBRA.setAttribute("align", "center");
-        textBRA.setAttribute("scale", "0.2 0.2 0.2");
-        textBRA.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelBRA);
-       entity.appendChild(textBRA);
-       container.appendChild(entity);
-      }
-      else if (i >= 18 && i <= 23) {
-         //CAN Esfera
-        let modelCAN = document.createElement("a-gltf-model");
-        modelCAN.setAttribute("src", "modelos/Canada/canadian_leaf.glb");
-        modelCAN.setAttribute("position", "0 0.7 0");
-        modelCAN.setAttribute("scale", ".01 .01 .01");
-        modelCAN.setAttribute("rotation", "0 0 0");
-        modelCAN.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textCAN = document.createElement("a-text");
-        textCAN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textCAN.setAttribute("value", "Canada has qualified for the World Cup twice, in 1986 and 2022. The 1986 appearance ended in the group stage, but the 2022 team showed growth and competitiveness. Soccer is still developing in Canada, but recent performances reflect the rising talent in Major League Soccer and youth programs. The national team is called the “Canadian Mens National Team” or CMNT.");
-        textCAN.setAttribute("align", "center");
-        textCAN.setAttribute("scale", "0.2 0.2 0.2");
-        textCAN.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelCAN);
-       entity.appendChild(textCAN);
-       container.appendChild(entity);
-      } 
-      else if (i >= 24 && i <= 29) {
-        //COR Cubo
-        let modelCOR = document.createElement("a-gltf-model");
-        modelCOR.setAttribute("src", "modelos/Corea del sur/south_korea.glb");
-        modelCOR.setAttribute("position", "0 0.7 0");
-        modelCOR.setAttribute("scale", ".5 .5 .5");
-        modelCOR.setAttribute("rotation", "0 0 0");
-        modelCOR.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textCOR = document.createElement("a-text");
-        textCOR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textCOR.setAttribute("value", "South Korea has qualified for the World Cup 11 times, debuting in 1954. Their most notable performance was in 2002, reaching the semifinals as co-hosts. The team, “Taeguk Warriors,” is known for speed, discipline, and stamina. South Korea is the most successful Asian team in World Cup history, regularly advancing from the group stage.");
-        textCOR.setAttribute("align", "center");
-        textCOR.setAttribute("scale", "0.2 0.2 0.2");
-        textCOR.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelCOR);
-       entity.appendChild(textCOR);
-       container.appendChild(entity);
-      }
-      else if (i >= 30 && i <= 35) {
-        //ECU Cilindro
-        let modelECU = document.createElement("a-gltf-model");
-        modelECU.setAttribute("src", "modelos/Ecuador/ecuador_anim.glb");
-        modelECU.setAttribute("position", "0 0.6 0");
-        modelECU.setAttribute("scale", ".3 .3 .3");
-        modelECU.setAttribute("rotation", "0 0 0");
-        modelECU.setAttribute("animation-mixer", "clip: *; loop: repeat");
-        modelECU.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textECU = document.createElement("a-text");
-        textECU.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textECU.setAttribute("value", "Ecuador has qualified for the World Cup four times: 2002, 2006, 2014, and 2022. Their best performance was in 2006, reaching the Round of 16. Ecuador team is known for itsd strong attacking players and physical style, often challenging South American rivals. The team, called “La Tricolor,” reflects the growing football culture in the country.");
-        textECU.setAttribute("align", "center");
-        textECU.setAttribute("scale", "0.2 0.2 0.2");
-        textECU.setAttribute("position", "0 -0.4 0");
-        //textECU.setAttribute("color", "black");
-
-
-       entity.appendChild(modelECU);
-       entity.appendChild(textECU);
-       container.appendChild(entity);
-      }
-      else if (i >= 36 && i <= 41) {
-         //EU Esfera
-        let modelEU = document.createElement("a-gltf-model");
-        modelEU.setAttribute("src", "modelos/Estados unidos/scene.gltf");
-        modelEU.setAttribute("position", "0 0.6 0");
-        modelEU.setAttribute("scale", "0.1 0.1 0.1");
-        modelEU.setAttribute("rotation", "0 0 0");
-        modelEU.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textEU = document.createElement("a-text");
-        textEU.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textEU.setAttribute("value", "Hamburger: The hamburger became an icon of American food due to its convenience and popularity in the fast-food era. It represents modern, fast-paced urban life and the “American way of life.” Moreover, it is widely exported and associated with informal celebrations such as barbecues and picnics. Its versatility to include different ingredients reflects the cultural diversity of the country");
-        textEU.setAttribute("align", "center");
-        textEU.setAttribute("scale", "0.2 0.2 0.2");
-        textEU.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelEU);
-       entity.appendChild(textEU);
-       container.appendChild(entity);
-
-      } 
-      else if (i >= 42 && i <= 47) {
-        //JPN Cubo
-        let modelJPN = document.createElement("a-gltf-model");
-        modelJPN.setAttribute("src", "modelos/Japon/japan_flag.glb");
-        modelJPN.setAttribute("position", "0 0.6 0");
-        modelJPN.setAttribute("scale", "0.1 0.1 0.1");
-        modelJPN.setAttribute("rotation", "0 0 0");
-        modelJPN.setAttribute("animation-mixer", "clip: *; loop: repeat");
-        modelJPN.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textJPN = document.createElement("a-text");
-        textJPN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textJPN.setAttribute("value", "Japan has participated in every World Cup since 1998, totaling 7 appearances. The team regularly reaches the Round of 16, showing consistency in Asia. Japan is known for its disciplined and technical style, emphasizing teamwork and speed. Its success has made the Samurai Blue a respected team in both Asia and global competitions.");
-        textJPN.setAttribute("align", "center");
-        textJPN.setAttribute("scale", "0.2 0.2 0.2");
-        textJPN.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelJPN);
-       entity.appendChild(textJPN);
-       container.appendChild(entity);
-      }
-      else if (i >= 48 && i <= 53) {
-        //JRD Cilindro
-        let modelJRD = document.createElement("a-gltf-model");
-        modelJRD.setAttribute("src", "modelos/Jordania/falafel.glb");
-        modelJRD.setAttribute("position", "0 0.3 0");
-        modelJRD.setAttribute("scale", "0.1 0.1 0.1");
-        modelJRD.setAttribute("rotation", "0 0 0");
-        modelJRD.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textJRD = document.createElement("a-text");
-        textJRD.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textJRD.setAttribute("value", "Falafel: Deep-fried balls made from chickpeas or fava beans, seasoned with herbs and spices. Popular as street food, falafel reflects Levantine culinary traditions and Jordan’s Middle Eastern heritage. It is a symbol of affordability, nutrition, and cultural identity, often eaten with pita and tahini sauce.");
-        textJRD.setAttribute("align", "center");
-        textJRD.setAttribute("scale", "0.2 0.2 0.2");
-        textJRD.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelJRD);
-       entity.appendChild(textJRD);
-       container.appendChild(entity);
-      }
-      else if (i >= 54 && i <= 59) {
-         //MX Esfera
-        let modelMX = document.createElement("a-gltf-model");
-        modelMX.setAttribute("src", "modelos/Mexico/taco.glb");
-        modelMX.setAttribute("position", "0 0.5 0");
-        modelMX.setAttribute("scale", ".03 .03 .03");
-        modelMX.setAttribute("rotation", "0 0 0");
-        modelMX.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textMX = document.createElement("a-text");
-        textMX.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textMX.setAttribute("value", "Tacos: Tacos are a cornerstone of Mexican cuisine, consisting of small tortillas filled with a variety of ingredients, such as meat, beans, cheese, or vegetables. They reflect the country’s culinary diversity and adaptability, as different regions have their own unique taco styles and flavors. Tacos are commonly eaten as street food, at family gatherings, and during festivals, symbolizing the informal, communal, and vibrant nature of Mexican food culture. Their simplicity, portability, and variety make them an enduring national culinary icon");
-        textMX.setAttribute("align", "center");
-        textMX.setAttribute("scale", "0.2 0.2 0.2");
-        textMX.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelMX);
-       entity.appendChild(textMX);
-       container.appendChild(entity);
-      } 
-      else if (i >= 60 && i <= 65) {
-        //NZL Cubo
-        let modelNZL = document.createElement("a-gltf-model");
-        modelNZL.setAttribute("src", "modelos/Nueva zelanda/pavlova.glb");
-        modelNZL.setAttribute("position", "0 0.5 0");
-        modelNZL.setAttribute("scale", "1 1 1");
-        modelNZL.setAttribute("rotation", "0 0 0");
-        modelNZL.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textNZL = document.createElement("a-text");
-        textNZL.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textNZL.setAttribute("value", "Pavlova: A dessert made of crisp meringue outside and soft inside, topped with whipped cream and fresh fruits. Pavlova is celebrated as a national dessert in New Zealand, often served during holidays and special occasions. It reflects the country’s creativity in baking and the use of fresh, local ingredients. The dish embodies festive spirit and culinary pride.");
-        textNZL.setAttribute("align", "center");
-        textNZL.setAttribute("scale", "0.2 0.2 0.2");
-        textNZL.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelNZL);
-       entity.appendChild(textNZL);
-       container.appendChild(entity);
-      }
-      else if (i >= 66 && i <= 71) {
-        //RII Cilindro
-        let modelRII = document.createElement("a-gltf-model");
-        modelRII.setAttribute("src", "modelos/RII/iran_lion_and_sun_emblem.glb");
-        modelRII.setAttribute("position", "0 0.5 0");
-        modelRII.setAttribute("scale", ".05 .05 .05");
-        modelRII.setAttribute("rotation", "0 0 0");
-        modelRII.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textRII = document.createElement("a-text");
-        textRII.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textRII.setAttribute("value", "Iran has qualified for the World Cup 6 times, debuting in 1978. The team often competes strongly in the group stage but has yet to advance past the Round of 16. Known as “Team Melli,” Iran is one of Asia most consistent national teams. Their disciplined, tactical play style is respected globally.");
-        textRII.setAttribute("align", "center");
-        textRII.setAttribute("scale", "0.2 0.2 0.2");
-        textRII.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelRII);
-       entity.appendChild(textRII);
-       container.appendChild(entity);
-      }
-      else if (i >= 72 && i <= 77) {
-         //UZB Esfera
-        let modelUZB = document.createElement("a-gltf-model");
-        modelUZB.setAttribute("src", "modelos/Uzbekistan/waving_uzbekistan_flag.glb");
-        modelUZB.setAttribute("position", "0 0.3 0");
-        modelUZB.setAttribute("scale", ".1 .1 .1");
-        modelUZB.setAttribute("rotation", "0 0 0");
-        modelUZB.setAttribute("animation-mixer", "clip: *; loop: repeat");
-        modelUZB.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear");
-
-        let textUZB = document.createElement("a-text");
-        textUZB.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-        textUZB.setAttribute("value", "Uzbekistan has never qualified for the FIFA World Cup. They are a strong team in Asia, often competing in AFC competitions like the Asian Cup. Despite not reaching the World Cup, Uzbekistan team, nicknamed the “White Wolves,” is recognized for technical skill and growing football development. The country continues to invest in youth and professional leagues to compete internationally.");
-        textUZB.setAttribute("align", "center");
-        textUZB.setAttribute("scale", "0.2 0.2 0.2");
-        textUZB.setAttribute("position", "0 -0.4 0");
-
-       entity.appendChild(modelUZB);
-       entity.appendChild(textUZB);
-       container.appendChild(entity);
-      } 
-
-    
-  }
-
- 
+  });
+} else {
+  console.warn("Botón btn-reanudar no encontrado en DOM.");
+}
