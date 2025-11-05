@@ -31,8 +31,7 @@ for (let i = 0; i < totalTargets; i++) {
     modelAR.setAttribute("rotation", "0 0 0");
 
     const textAR = document.createElement("a-text");
-    textAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textAR.setAttribute("value", "Argentina ha sido campeón 3 veces de la Copa del Mundo (1978, 1986, 2022).");
+   textAR.setAttribute("text", "Argentina ha sido campeon 3 veces de la Copa del Mundo (1978, 1986, 2022).");
     textAR.setAttribute("align", "center");
     textAR.setAttribute("scale", "0.2 0.2 0.2");
     textAR.setAttribute("position", "0 -0.4 0");
@@ -51,7 +50,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textAUS = document.createElement("a-text");
     textAUS.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textAUS.setAttribute("value", "En 2006 Australia consiguió su primera victoria en un mundial contra Japón.");
+    textAUS.setAttribute("value", "En 2006 Australia consiguio su primera victoria en un mundial contra Japon.");
     textAUS.setAttribute("align", "center");
     textAUS.setAttribute("scale", "0.2 0.2 0.2");
     textAUS.setAttribute("position", "0 -0.4 0");
@@ -89,7 +88,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textCAN = document.createElement("a-text");
     textCAN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textCAN.setAttribute("value", "Tras estar 36 años con ausencia en mundiales, Canadá volvió a participar en Qatar 2022.");
+    textCAN.setAttribute("value", "Tras estar 36 años con ausencia en mundiales, Canadá volvio a participar en Qatar 2022.");
     textCAN.setAttribute("align", "center");
     textCAN.setAttribute("scale", "0.2 0.2 0.2");
     textCAN.setAttribute("position", "0 -0.4 0");
@@ -108,7 +107,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textCOL = document.createElement("a-text");
     textCOL.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textCOL.setAttribute("value", "James Rodríguez fue el máximo goleador de Colombia en 2014.");
+    textCOL.setAttribute("value", "James Rodríguez fue el maximo goleador de Colombia en 2014.");
     textCOL.setAttribute("align", "center");
     textCOL.setAttribute("scale", "0.2 0.2 0.2");
     textCOL.setAttribute("position", "0 -0.4 0");
@@ -127,7 +126,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textCOR = document.createElement("a-text");
     textCOR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textCOR.setAttribute("value", "Corea del Sur alcanzó las semifinales en el Mundial de 2002.");
+    textCOR.setAttribute("value", "Corea del Sur alcanzo las semifinales en el Mundial de 2002.");
     textCOR.setAttribute("align", "center");
     textCOR.setAttribute("scale", "0.2 0.2 0.2");
     textCOR.setAttribute("position", "0 -0.4 0");
@@ -184,7 +183,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textJPN = document.createElement("a-text");
     textJPN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textJPN.setAttribute("value", "Japón coorganizó el Mundial de 2002 junto a Corea del Sur.");
+    textJPN.setAttribute("value", "Japón coorganizo el Mundial de 2002 junto a Corea del Sur.");
     textJPN.setAttribute("align", "center");
     textJPN.setAttribute("scale", "0.2 0.2 0.2");
     textJPN.setAttribute("position", "0 -0.4 0");
@@ -222,7 +221,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textMAR = document.createElement("a-text");
     textMAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textMAR.setAttribute("value", "Marruecos fue el primer país africano en llegar a semifinales en 1998.");
+    textMAR.setAttribute("value", "Marruecos fue el primer pais africano en llegar a semifinales en 1998.");
     textMAR.setAttribute("align", "center");
     textMAR.setAttribute("scale", "0.2 0.2 0.2");
     textMAR.setAttribute("position", "0 -0.4 0");
@@ -241,7 +240,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textMEX = document.createElement("a-text");
     textMEX.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textMEX.setAttribute("value", "México ha sido sede de la Copa del Mundo en 1970, 1986 y 2026.");
+    textMEX.setAttribute("value", "Mexico ha sido sede de la Copa del Mundo en 1970, 1986 y 2026.");
     textMEX.setAttribute("align", "center");
     textMEX.setAttribute("scale", "0.2 0.2 0.2");
     textMEX.setAttribute("position", "0 -0.4 0");
@@ -260,7 +259,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textNZL = document.createElement("a-text");
     textNZL.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textNZL.setAttribute("value", "En 2010 Nueva Zelanda se mantuvo invicta pero no pasó de fase de grupos.");
+    textNZL.setAttribute("value", "En 2010 Nueva Zelanda se mantuvo invicta pero no paso de fase de grupos.");
     textNZL.setAttribute("align", "center");
     textNZL.setAttribute("scale", "0.2 0.2 0.2");
     textNZL.setAttribute("position", "0 -0.4 0");
@@ -279,7 +278,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textPAR = document.createElement("a-text");
     textPAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textPAR.setAttribute("value", "En 2010 Paraguay llegó a los cuartos de final por primera vez.");
+    textPAR.setAttribute("value", "En 2010 Paraguay llego a los cuartos de final por primera vez.");
     textPAR.setAttribute("align", "center");
     textPAR.setAttribute("scale", "0.2 0.2 0.2");
     textPAR.setAttribute("position", "0 -0.4 0");
@@ -298,7 +297,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textRII = document.createElement("a-text");
     textRII.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textRII.setAttribute("value", "Irán ha participado 7 veces en Copas del Mundo.");
+    textRII.setAttribute("value", "Iran ha participado 7 veces en Copas del Mundo.");
     textRII.setAttribute("align", "center");
     textRII.setAttribute("scale", "0.2 0.2 0.2");
     textRII.setAttribute("position", "0 -0.4 0");
@@ -317,7 +316,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textTUN = document.createElement("a-text");
     textTUN.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textTUN.setAttribute("value", "Túnez fue la primera selección africana en ganar un partido en un Mundial (1978).");
+    textTUN.setAttribute("value", "Tunez fue la primera seleccion africana en ganar un partido en un Mundial (1978).");
     textTUN.setAttribute("align", "center");
     textTUN.setAttribute("scale", "0.2 0.2 0.2");
     textTUN.setAttribute("position", "0 -0.4 0");
@@ -336,7 +335,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textURU = document.createElement("a-text");
     textURU.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textURU.setAttribute("value", "Uruguay ganó la primera Copa del Mundo en 1930.");
+    textURU.setAttribute("value", "Uruguay gano la primera Copa del Mundo en 1930.");
     textURU.setAttribute("align", "center");
     textURU.setAttribute("scale", "0.2 0.2 0.2");
     textURU.setAttribute("position", "0 -0.4 0");
@@ -355,7 +354,7 @@ for (let i = 0; i < totalTargets; i++) {
 
     const textUZB = document.createElement("a-text");
     textUZB.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
-    textUZB.setAttribute("value", "Uzbekistán nunca ha clasificado a una Copa del Mundo.");
+    textUZB.setAttribute("value", "Uzbekistan nunca ha clasificado a una Copa del Mundo.");
     textUZB.setAttribute("align", "center");
     textUZB.setAttribute("scale", "0.2 0.2 0.2");
     textUZB.setAttribute("position", "0 -0.4 0");
