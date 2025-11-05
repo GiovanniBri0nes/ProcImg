@@ -31,7 +31,8 @@ for (let i = 0; i < totalTargets; i++) {
     modelAR.setAttribute("rotation", "0 0 0");
 
     const textAR = document.createElement("a-text");
-   textAR.setAttribute("text", "Argentina ha sido campeon 3 veces de la Copa del Mundo (1978, 1986, 2022).");
+    textAR.setAttribute("font", "https://cdn.aframe.io/fonts/mozillavr.fnt");
+    textAR.setAttribute("value", "Argentina ha sido campeon 3 veces de la Copa del Mundo (1978, 1986, 2022).");
     textAR.setAttribute("align", "center");
     textAR.setAttribute("scale", "0.2 0.2 0.2");
     textAR.setAttribute("position", "0 -0.4 0");
