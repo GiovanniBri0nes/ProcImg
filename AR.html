@@ -11,34 +11,55 @@
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
+
   <style>
-    .ar-btn {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      min-width: 140px;
-      max-width: 95vw;
-      font-size: 1.05rem;
-      border-radius: 18px;
-      box-shadow: 0 2px 8px rgba(30,60,114,0.12);
-      padding: 10px 18px;
-      display: none; /* mostrado por JS cuando hay marcador visible */
-      background: #2a5298;
-      color: #fff;
-      border: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
-      outline: none;
-    }
-    .ar-btn:active { transform: translateX(-50%); opacity: 0.95; }
-    @media (max-width:600px) {
-      .ar-btn { width: 80vw; padding: 12px 0; bottom: 18px; font-size: 1rem; }
-    }
-    a-scene { width:100vw; height:100vh; }
-  </style>
+  .ar-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    min-width: 140px;
+    max-width: 95vw;
+    font-size: 1.05rem;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.12);
+    padding: 10px 18px;
+    display: none; /* mostrado por JS cuando hay marcador visible */
+    background: #2a5298;
+    color: #fff;
+    border: none;
+
+    /* evitar highlight táctil y selección */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    outline: none;
+
+    /* eliminar transiciones para que no haya efecto visual al tocar */
+    transition: none !important;
+  }
+
+  /* neutralizar hover / focus / active (sobrescribe Bootstrap) */
+  .ar-btn:hover,
+  .ar-btn:focus,
+  .ar-btn:active,
+  .ar-btn:focus-visible {
+    transform: translateX(-50%); /* mantener centrado */
+    background: #2a5298 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.12) !important;
+    outline: none !important;
+  }
+
+  /* opcional: permitir pequeña opacidad en active sin escalar */
+  .ar-btn:active { opacity: 0.98; }
+
+  @media (max-width:600px) {
+    .ar-btn { width: 80vw; padding: 12px 0; bottom: 18px; font-size: 1rem; }
+  }
+  a-scene { width:100vw; height:100vh; }
+</style>
 </head>
 <body>
   <a-scene
