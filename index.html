@@ -69,6 +69,44 @@
         outline: none;
         border: 1px solid #1e3c72;
       }
+      /* ONBOARDING: estilos globales (mover fuera de cualquier @media) */
+  #onboarding-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1060; /* mayor que la navbar */
+    display: none; /* oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s;
+  }
+
+  .onboarding-step {
+    position: relative;
+    width: 90%;
+    max-width: 420px;
+    background: #fff;
+    color: #1e3c72;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .onboarding-step h4 { color: #FF6B6B; font-weight: bold; margin-bottom: 15px; }
+
+  .onboarding-highlight {
+    z-index: 1061 !important;
+    position: relative !important;
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.45) !important;
+    transition: box-shadow 0.3s;
+  }
       @media (max-width: 600px) {
         .main-content, .statistics-section, .trivia-section, .video-section {
           padding: 0 2vw;
@@ -91,6 +129,7 @@
           font-size: 0.98rem;
           padding: 12px 0;
         }
+        
       }
     </style>
 </head>
@@ -98,7 +137,7 @@
     <!-- Menú principal -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background:#1e3c72;">
       <div class="container">
-        <a class="navbar-brand fw-bold logo" href="#">COPA MUNDIAL DE LA FIFA 2026</a>
+        <a class="navbar-brand fw-bold logo" href="#">AR MUNDIAL 2026</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Menú">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -120,7 +159,7 @@
     <section id="home" class="container mt-5 pt-5">
       <div class="row justify-content-center">
         <div class="col-12 col-md-8 text-center">
-          <div class="logo display-5 fw-bold mb-2 text-warning">COPA MUNDIAL DE LA FIFA 2026</div>
+          <div class="logo display-5 fw-bold mb-2 text-warning">AR MUNDIAL</div>
           <div class="year display-6 fw-bold mb-2 text-warning">2026</div>
           <div class="subtitle mb-4">El torneo más grande en la historia del fútbol</div>
         </div>
@@ -236,98 +275,249 @@
       </div>
     </section>
 
+    <div id="onboarding-overlay">
+        <div id="step-1" class="onboarding-step" data-target="body">
+            <h4>¡Bienvenido a AR MUNDIAL 2026! 🏆</h4>
+            <p>Descubre todo sobre la Copa Mundial de la FIFA 2026 y vive una experiencia única de **Realidad Aumentada**.</p>
+            <button class="btn btn-primary" onclick="nextOnboardingStep()">Continuar</button>
+        </div>
+
+        <div id="step-2" class="onboarding-step" data-target="#mainMenu">
+            <h4>Navegación Rápida</h4>
+            <p>Usa la barra de navegación para saltar entre el **Inicio**, la **Experiencia AR**, el **Video**, las **Estadísticas** y la **Trivia**.</p>
+            <button class="btn btn-primary" onclick="nextOnboardingStep()">Siguiente</button>
+        </div>
+        
+        <div id="step-3" class="onboarding-step" data-target="#ar">
+            <h4>Experiencia de Realidad Aumentada</h4>
+            <p>Aquí puedes **iniciar la cámara** para escanear los escudos de los equipos y ver modelos 3D con datos exclusivos.</p>
+            <button class="btn btn-primary" onclick="nextOnboardingStep()">Siguiente</button>
+        </div>
+
+        <div id="step-4" class="onboarding-step" data-target="#trivia">
+            <h4>Trivia Mundial</h4>
+            <p>Al final de la página, prueba tus conocimientos. ¡Prepárate para la Copa Mundial de 2026!</p>
+            <button class="btn btn-success" onclick="finishOnboarding()">Comenzar</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function setVideoFilter(filter) {
-        document.getElementById("main-video").style.filter = filter;
-      }
+   <script>
+    // **********************************************
+    // ********** ONBOARDING LOGIC ******************
+    // **********************************************
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.onboarding-step');
+    const overlay = document.getElementById('onboarding-overlay');
 
-      const trivia = 
-      [
-      {q: "¿En qué año ganó Argentina su primer Mundial de la FIFA?", options: ["1978", "1986", "1990", "1966"], correct: 0},
-      {q: "¿Contra qué equipo consiguió Australia su primera victoria en un Mundial (2006)?", options: ["Japón", "Croacia", "Brasil", "Italia"], correct: 0},
-      {q: "¿Cuántas Copas del Mundo ha ganado la selección de Brasil?", options: ["3", "4", "5", "6"], correct: 2},
-      {q: "¿En qué Mundial volvió a participar Canadá tras 36 años de ausencia?", options: ["2010", "2014", "2018", "2022"], correct: 3},
-      {q: "¿Qué jugador colombiano fue máximo goleador del Mundial Brasil 2014?", options: ["James Rodríguez", "Radamel Falcao", "Juan Cuadrado", "Carlos Bacca"], correct: 0},
-      {q: "¿En qué Mundial llegó Corea del Sur hasta semifinales?", options: ["1994", "1998", "2002", "2006"], correct: 2},
-      {q: "¿Cuál fue la primera vez que Ecuador clasificó a un Mundial?", options: ["1998", "2002", "2006", "2010"], correct: 0},
-      {q: "¿Qué país fue sede del Mundial de 1994?", options: ["México", "Estados Unidos", "Canadá", "Brasil"], correct: 1},
-      {q: "¿Qué año Japón fue coanfitrión del Mundial junto a Corea del Sur?", options: ["1998", "2002", "2006", "2010"], correct: 1},
-      {q: "¿Ha participado Jordania alguna vez en una Copa del Mundo de la FIFA?", options: ["Sí", "No"], correct: 1},
-      {q: "¿En qué Mundial Marruecos se convirtió en la primera selección africana en llegar a semifinales?", options: ["1986", "1990", "2022", "1998"], correct: 3},
-      {q: "¿Cuántas veces ha sido México anfitrión de un Mundial?", options: ["1", "2", "3", "4"], correct: 2},
-      {q: "¿En qué Mundial Nueva Zelanda se mantuvo invicta pero no pasó de fase de grupos?", options: ["2006", "2010", "2014", "2018"], correct: 1},
-      {q: "¿En qué Mundial alcanzó Paraguay por primera vez los cuartos de final?", options: ["1998", "2002", "2010", "2014"], correct: 2},
-      {q: "¿Cuántas veces ha participado Irán en la Copa del Mundo hasta 2022?", options: ["3", "4", "5", "7"], correct: 3},
-      {q: "¿Qué selección africana fue la primera en ganar un partido en un Mundial (1978)?", options: ["Túnez", "Marruecos", "Argelia", "Camerún"], correct: 0},
-      {q: "¿En qué año ganó Uruguay el primer Mundial de la historia?", options: ["1928", "1930", "1934", "1938"], correct: 1},
-      {q: "¿Ha clasificado Uzbekistán alguna vez a un Mundial?", options: ["Sí", "No"], correct: 1}
-      ]
+    // Muestra el paso actual y destaca el elemento objetivo
+    function showStep(stepIndex) {
+        steps.forEach((step, index) => {
+            step.style.opacity = '0';
+            // Usa una pequeña traslación para mejor efecto visual
+            step.style.transform = 'translateY(10px)'; 
+            const targetId = step.getAttribute('data-target');
+            
+            // 1. Limpiar todos los highlights
+            document.querySelectorAll('.onboarding-highlight').forEach(el => {
+                el.classList.remove('onboarding-highlight');
+            });
+            
+            if (index === stepIndex) {
+                step.style.opacity = '1';
+                step.style.transform = 'translateY(0)';
 
-      // mezcla array (Fisher-Yates)
-      function shuffleArray(arr) {
-        const a = arr.slice();
-        for (let i = a.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-      }
+                // 2. Centrar en el elemento objetivo y destacarlo
+                const targetEl = document.querySelector(targetId);
 
-      // renderiza 5 preguntas aleatorias
-      function renderTrivia() {
-        const container = document.getElementById('trivia-questions');
-        if (!container) return;
-        container.innerHTML = '';
-        const chosen = shuffleArray(trivia).slice(0, 5);
-
-        chosen.forEach((item, qi) => {
-          const qWrap = document.createElement('div');
-          qWrap.className = 'trivia-question mb-3';
-
-          const qText = document.createElement('div');
-          qText.className = 'question-text mb-2';
-          qText.textContent = (qi + 1) + '. ' + item.q;
-          qWrap.appendChild(qText);
-
-          const opts = document.createElement('div');
-          opts.className = 'question-options d-flex flex-wrap';
-          item.options.forEach((opt, oi) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn btn-light mb-2 me-2';
-            btn.textContent = opt;
-            btn.addEventListener('click', () => checkAnswerDynamic(btn, oi === item.correct));
-            opts.appendChild(btn);
-          });
-
-          qWrap.appendChild(opts);
-          container.appendChild(qWrap);
+                if (targetEl && targetId !== 'body') {
+                    // Asegura que el elemento es visible en el viewport
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Necesitamos un ligero retraso para permitir que el scroll termine
+                    setTimeout(() => {
+                        targetEl.classList.add('onboarding-highlight');
+                        
+                        // 3. Posicionar el tooltip relativo al target (Responsive positioning)
+                        const targetRect = targetEl.getBoundingClientRect();
+                        const stepRect = step.getBoundingClientRect();
+                        
+                        // Intenta posicionar debajo del elemento target
+                        let top = targetRect.bottom + 10;
+                        let left = targetRect.left + (targetRect.width / 2) - (stepRect.width / 2);
+                        
+                        // Ajustar si se sale del borde derecho
+                        if (left + stepRect.width > window.innerWidth - 10) {
+                            left = window.innerWidth - stepRect.width - 10;
+                        }
+                        // Ajustar si se sale del borde izquierdo
+                        if (left < 10) {
+                            left = 10;
+                        }
+                        
+                        // Si no hay espacio debajo, intenta posicionar arriba
+                        if (top + stepRect.height > window.innerHeight) {
+                            top = targetRect.top - stepRect.height - 10;
+                        }
+                        
+                        // Fallback para elementos como el menú fijo, o si la posición calculada es mala
+                        if (targetId === '#mainMenu' || top < 10) {
+                           top = 70; // Posicionar bajo el menú fijo
+                        }
+                        
+                        step.style.top = `${top}px`;
+                        step.style.left = `${left}px`;
+                        step.style.position = 'fixed'; // Posición fija para que se mueva con el scroll/viewport
+                        
+                    }, 350); // Pequeño retraso después del scroll
+                
+                } else {
+                     // Paso de bienvenida o body (centrado fijo)
+                    step.style.top = '50%';
+                    step.style.left = '50%';
+                    step.style.position = 'fixed';
+                    step.style.transform = 'translate(-50%, -50%)';
+                }
+            }
         });
-      }
+    }
 
-      // comportamientos visuales al responder (similar a tu checkAnswer original)
-      function checkAnswerDynamic(btn, correct) {
-        const options = btn.parentElement.querySelectorAll('button');
-        options.forEach(b => {
-          b.disabled = true;
-          b.style.background = '#fff';
-          b.style.color = '#1e3c72';
-          b.style.border = '1px solid #1e3c72';
-        });
-        if (correct) {
-          btn.style.background = '#4CAF50';
-          btn.style.color = '#fff';
-          btn.style.border = '1px solid #4CAF50';
+    // Avanza al siguiente paso
+    window.nextOnboardingStep = function() {
+        currentStep++;
+        if (currentStep < steps.length) {
+            showStep(currentStep);
         } else {
-          btn.style.background = '#FF5252';
-          btn.style.color = '#fff';
-          btn.style.border = '1px solid #FF5252';
+            finishOnboarding();
         }
-      }
+    }
 
-      // inicializar trivia al cargar la página
-      document.addEventListener('DOMContentLoaded', renderTrivia);
-    </script>
+    // Finaliza el tour
+    window.finishOnboarding = function() {
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 300);
+        // Quitar todos los highlights
+        document.querySelectorAll('.onboarding-highlight').forEach(el => {
+            el.classList.remove('onboarding-highlight');
+        });
+    }
+
+    // **********************************************
+    // ********** LÓGICA DE VIDEO Y TRIVIA **********
+    // **********************************************
+    
+    function setVideoFilter(filter) {
+        document.getElementById("main-video").style.filter = filter;
+    }
+
+    const trivia = 
+    [
+    {q: "¿En qué año ganó Argentina su primer Mundial de la FIFA?", options: ["1978", "1986", "1990", "1966"], correct: 0},
+    {q: "¿Contra qué equipo consiguió Australia su primera victoria en un Mundial (2006)?", options: ["Japón", "Croacia", "Brasil", "Italia"], correct: 0},
+    {q: "¿Cuántas Copas del Mundo ha ganado la selección de Brasil?", options: ["3", "4", "5", "6"], correct: 2},
+    {q: "¿En qué Mundial volvió a participar Canadá tras 36 años de ausencia?", options: ["2010", "2014", "2018", "2022"], correct: 3},
+    {q: "¿Qué jugador colombiano fue máximo goleador del Mundial Brasil 2014?", options: ["James Rodríguez", "Radamel Falcao", "Juan Cuadrado", "Carlos Bacca"], correct: 0},
+    {q: "¿En qué Mundial llegó Corea del Sur hasta semifinales?", options: ["1994", "1998", "2002", "2006"], correct: 2},
+    {q: "¿Cuál fue la primera vez que Ecuador clasificó a un Mundial?", options: ["1998", "2002", "2006", "2010"], correct: 0},
+    {q: "¿Qué país fue sede del Mundial de 1994?", options: ["México", "Estados Unidos", "Canadá", "Brasil"], correct: 1},
+    {q: "¿Qué año Japón fue coanfitrión del Mundial junto a Corea del Sur?", options: ["1998", "2002", "2006", "2010"], correct: 1},
+    {q: "¿Ha participado Jordania alguna vez en una Copa del Mundo de la FIFA?", options: ["Sí", "No"], correct: 1},
+    {q: "¿En qué Mundial Marruecos se convirtió en la primera selección africana en llegar a semifinales?", options: ["1986", "1990", "2022", "1998"], correct: 3},
+    {q: "¿Cuántas veces ha sido México anfitrión de un Mundial?", options: ["1", "2", "3", "4"], correct: 2},
+    {q: "¿En qué Mundial Nueva Zelanda se mantuvo invicta pero no pasó de fase de grupos?", options: ["2006", "2010", "2014", "2018"], correct: 1},
+    {q: "¿En qué Mundial alcanzó Paraguay por primera vez los cuartos de final?", options: ["1998", "2002", "2010", "2014"], correct: 2},
+    {q: "¿Cuántas veces ha participado Irán en la Copa del Mundo hasta 2022?", options: ["3", "4", "5", "7"], correct: 3},
+    {q: "¿Qué selección africana fue la primera en ganar un partido en un Mundial (1978)?", options: ["Túnez", "Marruecos", "Argelia", "Camerún"], correct: 0},
+    {q: "¿En qué año ganó Uruguay el primer Mundial de la historia?", options: ["1928", "1930", "1934", "1938"], correct: 1},
+    {q: "¿Ha clasificado Uzbekistán alguna vez a un Mundial?", options: ["Sí", "No"], correct: 1}
+    ]
+
+    // mezcla array (Fisher-Yates)
+    function shuffleArray(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    // renderiza 5 preguntas aleatorias
+    function renderTrivia() {
+      const container = document.getElementById('trivia-questions');
+      if (!container) return;
+      container.innerHTML = '';
+      const chosen = shuffleArray(trivia).slice(0, 5);
+
+      chosen.forEach((item, qi) => {
+        const qWrap = document.createElement('div');
+        qWrap.className = 'trivia-question mb-3';
+
+        const qText = document.createElement('div');
+        qText.className = 'question-text mb-2';
+        qText.textContent = (qi + 1) + '. ' + item.q;
+        qWrap.appendChild(qText);
+
+        const opts = document.createElement('div');
+        opts.className = 'question-options d-flex flex-wrap';
+        item.options.forEach((opt, oi) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn btn-light mb-2 me-2';
+          btn.textContent = opt;
+          btn.addEventListener('click', () => checkAnswerDynamic(btn, oi === item.correct));
+          opts.appendChild(btn);
+        });
+
+        qWrap.appendChild(opts);
+        container.appendChild(qWrap);
+      });
+    }
+
+    // comportamientos visuales al responder (similar a tu checkAnswer original)
+    function checkAnswerDynamic(btn, correct) {
+      const options = btn.parentElement.querySelectorAll('button');
+      options.forEach(b => {
+        b.disabled = true;
+        b.style.background = '#fff';
+        b.style.color = '#1e3c72';
+        b.style.border = '1px solid #1e3c72';
+      });
+      if (correct) {
+        btn.style.background = '#4CAF50';
+        btn.style.color = '#fff';
+        btn.style.border = '1px solid #4CAF50';
+      } else {
+        btn.style.background = '#FF5252';
+        btn.style.color = '#fff';
+        btn.style.border = '1px solid #FF5252';
+      }
+    }
+
+    // Inicializa el tour y la trivia al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lógica de Onboarding forzado
+        if (overlay) {
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                showStep(0);
+            }, 10);
+        }
+        
+        // Inicializar Trivia
+        renderTrivia();
+        
+        // Ejecutar el posicionamiento del onboarding cada vez que se redimensiona
+        // Esto asegura el responsive si el usuario cambia el tamaño de la ventana
+        window.addEventListener('resize', () => {
+            if (overlay.style.display === 'flex' && currentStep < steps.length) {
+                showStep(currentStep);
+            }
+        });
+    });
+</script>
 </body>
 </html>
