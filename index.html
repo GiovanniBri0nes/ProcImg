@@ -69,43 +69,84 @@
         outline: none;
         border: 1px solid #1e3c72;
       }
-      /* ONBOARDING: estilos globales (mover fuera de cualquier @media) */
+     /* ONBOARDING: estilos globales (responsive) */
   #onboarding-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 1060; /* mayor que la navbar */
-    display: none; /* oculto por defecto */
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1060;
+    display: none;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.3s;
+    transition: opacity 0.25s;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
   .onboarding-step {
     position: relative;
-    width: 90%;
+    width: 100%;
     max-width: 420px;
     background: #fff;
     color: #1e3c72;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    padding: 18px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.25s, transform 0.25s;
+    box-sizing: border-box;
   }
 
-  .onboarding-step h4 { color: #FF6B6B; font-weight: bold; margin-bottom: 15px; }
+  .onboarding-step h4 { color: #FF6B6B; font-weight: 700; margin-bottom: 8px; }
+  .onboarding-step p { margin-bottom: 12px; }
 
+  /* Highlight del elemento objetivo */
   .onboarding-highlight {
     z-index: 1061 !important;
     position: relative !important;
-    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.45) !important;
-    transition: box-shadow 0.3s;
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.35) !important;
+    transition: box-shadow 0.2s;
+  }
+
+  /* Panel inferior para móviles */
+  .onboarding-step.mobile {
+    max-width: none;
+    width: calc(100% - 32px);
+    border-radius: 12px 12px 0 0;
+    text-align: left;
+    padding: 14px;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 12px;
+    transform: translateY(0);
+  }
+
+  /* indicador pequeño que apunta al objetivo (desktop) */
+  .onboarding-pointer {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    transform: rotate(45deg);
+    box-shadow: -2px -2px 8px rgba(0,0,0,0.15);
+    display: none;
+    z-index: 1062;
+  }
+
+  /* mostrar pointer en desktop */
+  @media (min-width: 601px) {
+    .onboarding-pointer { display: block; }
+  }
+
+  @media (max-width: 600px) {
+    #onboarding-overlay { align-items: flex-end; padding-bottom: 0; background: rgba(0,0,0,0.6); }
+    .onboarding-step { max-width: 100%; border-radius: 12px 12px 0 0; }
   }
       @media (max-width: 600px) {
         .main-content, .statistics-section, .trivia-section, .video-section {
@@ -278,23 +319,29 @@
     <div id="onboarding-overlay">
         <div id="step-1" class="onboarding-step" data-target="body">
             <h4>¡Bienvenido a AR MUNDIAL 2026! 🏆</h4>
-            <p>Descubre todo sobre la Copa Mundial de la FIFA 2026 y vive una experiencia única de **Realidad Aumentada**.</p>
+            <p>Descubre todo sobre la Copa Mundial de la FIFA 2026 y vive una experiencia única de Realidad Aumentada.</p>
             <button class="btn btn-primary" onclick="nextOnboardingStep()">Continuar</button>
         </div>
 
         <div id="step-2" class="onboarding-step" data-target="#mainMenu">
             <h4>Navegación Rápida</h4>
-            <p>Usa la barra de navegación para saltar entre el **Inicio**, la **Experiencia AR**, el **Video**, las **Estadísticas** y la **Trivia**.</p>
+            <p>Usa la barra de navegación para saltar entre el Inicio, la Experiencia AR, el Video, las Estadísticas y la Trivia.</p>
             <button class="btn btn-primary" onclick="nextOnboardingStep()">Siguiente</button>
         </div>
         
         <div id="step-3" class="onboarding-step" data-target="#ar">
             <h4>Experiencia de Realidad Aumentada</h4>
-            <p>Aquí puedes **iniciar la cámara** para escanear los escudos de los equipos y ver modelos 3D con datos exclusivos.</p>
+            <p>Podrás iniciar la cámara para escanear los escudos de los equipos y ver modelos 3D con datos.</p>
             <button class="btn btn-primary" onclick="nextOnboardingStep()">Siguiente</button>
         </div>
 
-        <div id="step-4" class="onboarding-step" data-target="#trivia">
+        <div id="step-4" class="onboarding-step" data-target="#video">
+            <h4>Video</h4>
+            <p>Ve la recopilación de goles y usa los filtros para personalizar tu experiencia.</p>
+            <button class="btn btn-primary" onclick="nextOnboardingStep()">Siguiente</button>
+        </div>
+
+        <div id="step-5" class="onboarding-step" data-target="#trivia">
             <h4>Trivia Mundial</h4>
             <p>Al final de la página, prueba tus conocimientos. ¡Prepárate para la Copa Mundial de 2026!</p>
             <button class="btn btn-success" onclick="finishOnboarding()">Comenzar</button>
@@ -303,106 +350,88 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
    <script>
-    // **********************************************
-    // ********** ONBOARDING LOGIC ******************
-    // **********************************************
-    let currentStep = 0;
-    const steps = document.querySelectorAll('.onboarding-step');
-    const overlay = document.getElementById('onboarding-overlay');
+     // **********************************************
+  // ONBOARDING + TRIVIA (ajustes)
+  // **********************************************
+  let currentStep = 0;
+  const steps = document.querySelectorAll('.onboarding-step');
+  const overlay = document.getElementById('onboarding-overlay');
 
-    // Muestra el paso actual y destaca el elemento objetivo
-    function showStep(stepIndex) {
-        steps.forEach((step, index) => {
-            step.style.opacity = '0';
-            // Usa una pequeña traslación para mejor efecto visual
-            step.style.transform = 'translateY(10px)'; 
-            const targetId = step.getAttribute('data-target');
-            
-            // 1. Limpiar todos los highlights
-            document.querySelectorAll('.onboarding-highlight').forEach(el => {
-                el.classList.remove('onboarding-highlight');
-            });
-            
-            if (index === stepIndex) {
-                step.style.opacity = '1';
-                step.style.transform = 'translateY(0)';
+  function showStep(stepIndex) {
+    steps.forEach((step) => {
+      step.style.opacity = '0';
+      step.style.transform = 'translateY(10px)';
+      step.classList.remove('mobile');
+    });
+    // quitar highlights previos
+    document.querySelectorAll('.onboarding-highlight').forEach(el => el.classList.remove('onboarding-highlight'));
+    document.querySelectorAll('.onboarding-pointer').forEach(p => p.remove());
 
-                // 2. Centrar en el elemento objetivo y destacarlo
-                const targetEl = document.querySelector(targetId);
+    const step = steps[stepIndex];
+    if (!step) return;
 
-                if (targetEl && targetId !== 'body') {
-                    // Asegura que el elemento es visible en el viewport
-                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Necesitamos un ligero retraso para permitir que el scroll termine
-                    setTimeout(() => {
-                        targetEl.classList.add('onboarding-highlight');
-                        
-                        // 3. Posicionar el tooltip relativo al target (Responsive positioning)
-                        const targetRect = targetEl.getBoundingClientRect();
-                        const stepRect = step.getBoundingClientRect();
-                        
-                        // Intenta posicionar debajo del elemento target
-                        let top = targetRect.bottom + 10;
-                        let left = targetRect.left + (targetRect.width / 2) - (stepRect.width / 2);
-                        
-                        // Ajustar si se sale del borde derecho
-                        if (left + stepRect.width > window.innerWidth - 10) {
-                            left = window.innerWidth - stepRect.width - 10;
-                        }
-                        // Ajustar si se sale del borde izquierdo
-                        if (left < 10) {
-                            left = 10;
-                        }
-                        
-                        // Si no hay espacio debajo, intenta posicionar arriba
-                        if (top + stepRect.height > window.innerHeight) {
-                            top = targetRect.top - stepRect.height - 10;
-                        }
-                        
-                        // Fallback para elementos como el menú fijo, o si la posición calculada es mala
-                        if (targetId === '#mainMenu' || top < 10) {
-                           top = 70; // Posicionar bajo el menú fijo
-                        }
-                        
-                        step.style.top = `${top}px`;
-                        step.style.left = `${left}px`;
-                        step.style.position = 'fixed'; // Posición fija para que se mueva con el scroll/viewport
-                        
-                    }, 350); // Pequeño retraso después del scroll
-                
-                } else {
-                     // Paso de bienvenida o body (centrado fijo)
-                    step.style.top = '50%';
-                    step.style.left = '50%';
-                    step.style.position = 'fixed';
-                    step.style.transform = 'translate(-50%, -50%)';
-                }
-            }
-        });
+    const isMobile = window.innerWidth <= 600;
+
+    if (isMobile) {
+      // panel inferior en móvil
+      overlay.style.justifyContent = 'center';
+      overlay.style.alignItems = 'flex-end';
+      step.classList.add('mobile');
+      // centrar y mostrar
+      step.style.opacity = '1';
+      step.style.transform = 'translateY(0)';
+      // no intentar posicionar respecto al target en móvil
+      return;
     }
 
-    // Avanza al siguiente paso
-    window.nextOnboardingStep = function() {
-        currentStep++;
-        if (currentStep < steps.length) {
-            showStep(currentStep);
-        } else {
-            finishOnboarding();
-        }
-    }
+    // desktop: centra el paso y resalta el objetivo
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
 
-    // Finaliza el tour
-    window.finishOnboarding = function() {
-        overlay.style.opacity = '0';
-        setTimeout(() => {
-            overlay.style.display = 'none';
-        }, 300);
-        // Quitar todos los highlights
-        document.querySelectorAll('.onboarding-highlight').forEach(el => {
-            el.classList.remove('onboarding-highlight');
-        });
+    step.style.opacity = '1';
+    step.style.transform = 'translateY(0)';
+
+    const targetId = step.getAttribute('data-target');
+    if (targetId && targetId !== 'body') {
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        // desplazar suavemente al target
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetEl.classList.add('onboarding-highlight');
+
+        // colocar pointer cercano al target: crear pequeño indicador y posicionarlo
+        const rect = targetEl.getBoundingClientRect();
+        const pointer = document.createElement('div');
+        pointer.className = 'onboarding-pointer';
+        document.body.appendChild(pointer);
+
+        // posicionar pointer arriba del target si hay espacio, sino a la izquierda
+        const pointerSize = 12;
+        const pageX = rect.left + rect.width / 2;
+        const pageY = rect.top - pointerSize; // arriba del elemento
+        pointer.style.left = `${Math.max(8, pageX - pointerSize/2)}px`;
+        pointer.style.top = `${Math.max(8, window.scrollY + rect.top - pointerSize/2)}px`;
+      }
     }
+  }
+
+  window.nextOnboardingStep = function() {
+    currentStep++;
+    if (currentStep < steps.length) {
+      showStep(currentStep);
+    } else {
+      finishOnboarding();
+    }
+  }
+
+  window.finishOnboarding = function() {
+    // marcar como visto
+    localStorage.setItem('onboardingSeen', '1');
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.style.display = 'none'; }, 300);
+    document.querySelectorAll('.onboarding-highlight').forEach(el => el.classList.remove('onboarding-highlight'));
+  }
+
 
     // **********************************************
     // ********** LÓGICA DE VIDEO Y TRIVIA **********
@@ -498,17 +527,17 @@
 
     // Inicializa el tour y la trivia al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
-        // Lógica de Onboarding forzado
-        if (overlay) {
+    // Mostrar onboarding solo si no se ha visto antes
+    if (overlay) {
             overlay.style.display = 'flex';
             setTimeout(() => {
                 overlay.style.opacity = '1';
                 showStep(0);
             }, 10);
         }
-        
-        // Inicializar Trivia
-        renderTrivia();
+
+    // Inicializar Trivia (tu función existente)
+    renderTrivia();
         
         // Ejecutar el posicionamiento del onboarding cada vez que se redimensiona
         // Esto asegura el responsive si el usuario cambia el tamaño de la ventana
