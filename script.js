@@ -379,37 +379,98 @@ for (let i = 0; i < totalTargets; i++) {
 
 
 
-// acción del botón: rotar 360° en 5s todos los modelos dentro del anchor visible
-if (btnReanudar) {
-  btnReanudar.addEventListener("click", () => {
-    if (!currentAnchor) {
-      alert("No se detecta ningún marcador. Acerca la cámara al escudo correspondiente.");
-      return;
-    }
 
-    const models = currentAnchor.querySelectorAll("a-gltf-model, [gltf-model], .rotatable");
-    if (models.length === 0) {
-      console.log("No se encontraron modelos en el anchor visible.");
-      return;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById("targets-container");
+  const btnStart = document.getElementById("btn-reanudar");
+  const btnStop = document.getElementById("btn-detener");
+  let currentAnchor = null;
+  const visibleAnchors = new Set();
 
+  function parseRotation(rot) {
+    if (!rot) return { x: 0, y: 0, z: 0 };
+    if (typeof rot === 'string') {
+      const p = rot.trim().split(/\s+/).map(n => parseFloat(n) || 0);
+      return { x: p[0]||0, y: p[1]||0, z: p[2]||0 };
+    }
+    return { x: rot.x||0, y: rot.y||0, z: rot.z||0 };
+  }
+
+  function startSpinOnModels(models, periodMs = 5000) {
+    const speed = 360 / periodMs; // degrees per ms
     models.forEach(m => {
-      // limpiar animaciones previas
-      m.removeAttribute("animation__spin");
-
-      const rotAttr = m.getAttribute("rotation");
-      const r = parseRotation(rotAttr);
-      const toY = r.y + 360;
-      const to = `${r.x} ${toY} ${r.z}`;
-
-      m.setAttribute("animation__spin", `property: rotation; to: ${to}; dur: 5000; easing: linear; loop: false`);
-
-      setTimeout(() => {
-        m.removeAttribute("animation__spin");
-        m.setAttribute("rotation", `${r.x} ${toY % 360} ${r.z}`);
-      }, 5050);
+      if (m._spinRaf) return;
+      m._spinLast = performance.now();
+      function tick(now) {
+        const dt = now - (m._spinLast || now);
+        m._spinLast = now;
+        const r = parseRotation(m.getAttribute('rotation'));
+        r.y = (r.y + dt * speed) % 360;
+        m.setAttribute('rotation', `${r.x} ${r.y} ${r.z}`);
+        m._spinRaf = requestAnimationFrame(tick);
+      }
+      m._spinRaf = requestAnimationFrame(tick);
     });
-  });
-} else {
-  console.warn("Botón btn-reanudar no encontrado en DOM.");
-}
+  }
+
+  function stopSpinOnModels(models) {
+    models.forEach(m => {
+      if (m._spinRaf) {
+        cancelAnimationFrame(m._spinRaf);
+        delete m._spinRaf;
+        delete m._spinLast;
+      }
+    });
+  }
+
+  function attachAnchor(anchor) {
+    if (anchor.__attached) return;
+    anchor.__attached = true;
+    anchor.addEventListener('targetFound', () => {
+      visibleAnchors.add(anchor);
+      currentAnchor = anchor;
+      if (btnStart) btnStart.style.display = 'block';
+    });
+    anchor.addEventListener('targetLost', () => {
+      visibleAnchors.delete(anchor);
+      if (currentAnchor === anchor) currentAnchor = null;
+      if (visibleAnchors.size === 0) {
+        if (btnStart) btnStart.style.display = 'none';
+        if (btnStop) btnStop.style.display = 'none';
+      }
+    });
+  }
+
+  function scanAnchors() {
+    if (!container) return;
+    const anchors = container.querySelectorAll('a-entity[mindar-image-target]');
+    anchors.forEach(attachAnchor);
+  }
+
+  // initial scan + observe
+  scanAnchors();
+  setTimeout(scanAnchors, 500);
+  const mo = new MutationObserver(scanAnchors);
+  if (container) mo.observe(container, { childList: true, subtree: true });
+
+  if (btnStart) {
+    btnStart.addEventListener('click', () => {
+      if (!currentAnchor) { alert('No hay marcador detectado.'); return; }
+      const models = currentAnchor.querySelectorAll('a-gltf-model, [gltf-model], .rotatable');
+      if (!models.length) return;
+      startSpinOnModels(Array.from(models)); // giro indefinido
+      btnStart.style.display = 'none';
+      if (btnStop) btnStop.style.display = 'block';
+    });
+  }
+
+  if (btnStop) {
+    btnStop.addEventListener('click', () => {
+      if (!currentAnchor) return;
+      const models = currentAnchor.querySelectorAll('a-gltf-model, [gltf-model], .rotatable');
+      stopSpinOnModels(Array.from(models));
+      btnStop.style.display = 'none';
+      if (btnStart) btnStart.style.display = 'block';
+    });
+  }
+});
